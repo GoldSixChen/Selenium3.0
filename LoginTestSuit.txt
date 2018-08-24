@@ -1,0 +1,40 @@
+*** Settings ***
+Library           Selenium2Library
+
+*** Test Cases ***
+j2ee_admin_login
+    Open Browser    http://localhost:12000/IsAdmin/    ie
+    input text    name=username    Administrator
+    input text    name=password    fnst_1234
+    Click Element    xpath=//input[@name="login"]
+    Wait Until Page Contains    Interstage Management Console    10    error
+    sleep    2s
+    log    login success!
+    Select Frame    xpath=//frame[starts-with(@name,"treeFrm_")]
+    Click Element    xpath=//a[contains(text(),"WorkUnit")]
+    unselect frame
+    select frame    xpath=//frame[starts-with(@name,"bodyFrm_")]
+    Click Element    xpath=//a[contains(text(),"Create a new WorkUnit")]
+    Click Element    xpath=//input[@name="checkcreate"]
+    unselect frame
+    sleep    2s
+    Select Frame    xpath=//frame[starts-with(@name,"msgFrm_")]
+    Page Should Contain    IJServerを作成しました(IJServer名=WU001)
+    unselect frame
+    log    create wu success!
+    Select Frame    xpath=//frame[starts-with(@name,"treeFrm_")]
+    Click Element    xpath=//a[contains(@onclick,"ujiAncSubmit_menu('switchexpanded','switchNode','0_0_0')")]
+    Click Element    xpath=//a[contains(text(),"WU001")]
+    unselect frame
+    Select Frame    xpath=//frame[starts-with(@name,"bodyFrm_")]
+    Click Element    xpath=//input[contains(@onclick,"confirm_onclick('WorkUnit will be deleted.')")]
+    Handle Alert    accept
+    unselect frame
+    sleep    2s
+    Select Frame    xpath=//frame[starts-with(@name,"msgFrm_")]
+    Page Should Contain    IJServerを削除しました(IJServer名=WU001)
+    unselect frame
+    log    delete WU001 success!
+    sleep    2s
+    Close Browser
+    log    test demo complete!
