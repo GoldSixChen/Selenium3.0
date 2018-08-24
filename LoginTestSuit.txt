@@ -3,9 +3,9 @@ Library           Selenium2Library
 
 *** Test Cases ***
 j2ee_admin_login
-    Open Browser    http://localhost:12000/IsAdmin/    ie
-    input text    name=username    Administrator
-    input text    name=password    fnst_1234
+    Open Browser    http://localhost    ie
+    input text    name=username    
+    input text    name=password    
     Click Element    xpath=//input[@name="login"]
     Wait Until Page Contains    Interstage Management Console    10    error
     sleep    2s
